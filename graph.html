@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Recommendations</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'cursive', inherit;
+            background-color: #e3f5f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #74cedd;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            background-color: #ffffff;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            border: 2px solid #ace2eb;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        select {
+            padding: 8px;
+            margin-right: 15px;
+            font-size: 14px;
+            border: 1px solid #c7ebf2;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            background-color: #76c5d3;
+            color: white;
+            border: none;
+            padding: 10px 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #74cedd;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2e8797;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #ffffff;
+            border: 2px solid #92c7d0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #74cedd;
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #c7ebf2;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover td {
+            background-color: #e3f5f8;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            form {
+                padding: 15px;
+            }
+
+            select {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            table {
+                font-size: 14px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>Peer Recommendation System</header>
+
+    <form method="POST">
+        <label for="skills">Select Skills:</label>
+        <select name="skills" id="skills">
+            {% for skill in skills_list %}
+                <option value="{{ skill }}">{{ skill }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="interests">Select Interests:</label>
+        <select name="interests" id="interests">
+            {% for interest in interests_list %}
+                <option value="{{ interest }}">{{ interest }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if recommendations %}
+    <h2>Top 5 Peer Recommendations</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Similarity (%)</th>
+            <th>Invite</th>
+        </tr>
+        {% for recommendation in recommendations %}
+        <tr>
+            <td>{{ recommendation.name }}</td>
+            <td>{{ recommendation.email }}</td>
+            <td>{{ recommendation.similarity_percentage }}</td>
+            <td>
+                <a href="mailto:{{ recommendation.email }}?subject=Invitation&body=Hi {{ recommendation.name }}, I would like to connect with you based on your profile match.">
+                    <button type="button">Invite</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>
